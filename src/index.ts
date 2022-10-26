@@ -1,5 +1,5 @@
 import { Client, Events, GatewayIntentBits, messageLink } from "discord.js";
-import { Token, GuildID } from "./config.json";
+import { Token, GuildID } from "../config.json";
 
 const client = new Client({
   intents: [
@@ -10,22 +10,7 @@ const client = new Client({
 });
 
 client.once(Events.ClientReady, (c) => {
-  console.log("bot ready");
-
-  const guild = client.guilds.cache.get(GuildID);
-
-  let commands;
-
-  if (guild) {
-    commands = guild.commands;
-  } else {
-    commands = client.application?.commands;
-  }
-
-  commands?.create({
-    name: "ping",
-    description: "replices with pong",
-  });
+  console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
 client.on(Events.MessageCreate, (message) => {
