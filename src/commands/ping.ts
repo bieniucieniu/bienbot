@@ -1,13 +1,13 @@
-import {
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  AttachmentBuilder,
-} from "discord.js";
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 
-module.exports = {
-  data: new SlashCommandBuilder().setName("ping").setDescription("pong"),
+export const ping = {
+  data: new SlashCommandBuilder()
+    .setName("ping")
+    .setDescription("pong")
+    .addUserOption((option) =>
+      option.setName("target").setDescription("The user")
+    ),
   async execute(interaction: ChatInputCommandInteraction) {
-    await interaction.reply({ content: "Secret Pong!", ephemeral: true });
-    await interaction.followUp({ content: "Pong again!", ephemeral: true });
+    await interaction.reply(`pong ${interaction.options.getUser("target")}`);
   },
 };
