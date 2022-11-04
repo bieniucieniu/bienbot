@@ -1,9 +1,4 @@
-import {
-  AttachmentBuilder,
-  Client,
-  Events,
-  GatewayIntentBits,
-} from "discord.js";
+import { Client, Events, GatewayIntentBits } from "discord.js";
 import { Token } from "../config.json";
 import commands from "./commands";
 import { deployCommnads } from "./deployCommands";
@@ -24,15 +19,20 @@ client.once(Events.ClientReady, (c) => {
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  const command = commands.get(interaction.commandName) as any;
+  const command = commands.get(interaction.commandName);
 
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`);
     return;
   }
-  interaction.replied;
 
   await command.execute(interaction);
+});
+
+client.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isButton()) return;
+
+  interaction.reply("ss");
 });
 
 client.login(Token);

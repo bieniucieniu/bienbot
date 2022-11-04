@@ -1,16 +1,24 @@
-import { Collection } from "discord.js";
+import { ban } from "./ban";
+import { krzysztof } from "./krzysztof";
+import { user } from "./user";
+import { ping } from "./ping";
+import { buttons } from "./buttons";
+import {
+  ChatInputCommandInteraction,
+  Collection,
+  SlashCommandBuilder,
+} from "discord.js";
 
-import fs from "node:fs";
+type Command = {
+  data: any;
+  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
+};
 
-const commands = new Collection();
+const commands: Command[] = [ban, krzysztof, user, ping, buttons];
+const commandsCollection = new Collection<string, Command>();
 
-fs.readdirSync("./src/commands").forEach((file) => {
-  if (file === "index.ts") return;
-
-  if (file.endsWith(".ts")) {
-    const command = require(`./${file}`);
-    commands.set(command.data.name, command);
-  }
+commands.forEach((command) => {
+  commandsCollection.set(command.data.name, command);
 });
 
-export default commands;
+export default commandsCollection;
