@@ -1,10 +1,10 @@
 import { REST, Routes } from "discord.js";
 import { Token, GuildID, ClientID } from "../config.json";
 
-import commands from "./commands";
+import commandsCollection from "./commands";
 
 export const deployCommnads = async () => {
-  const commandsJson = commands.map((command: any) => {
+  const commandsJson = commandsCollection.map((command) => {
     return command?.data.toJSON();
   });
 

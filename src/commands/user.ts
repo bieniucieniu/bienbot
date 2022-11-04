@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 
-module.exports = {
+export const user = {
   data: new SlashCommandBuilder()
     .setName("user")
     .setDescription("Provides information about the user."),
