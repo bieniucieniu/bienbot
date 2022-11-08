@@ -5,6 +5,8 @@ import {
   ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
+  AttachmentBuilder,
+  ComponentType,
 } from "discord.js";
 
 export const buttons = {
@@ -16,12 +18,12 @@ export const buttons = {
     ),
   async execute(interaction: ChatInputCommandInteraction) {
     try {
-      const row = new ActionRowBuilder<ButtonBuilder>();
+      const row: ButtonBuilder[] = [];
 
-      let num = interaction.options.getInteger("num") || 1;
+      const num = interaction.options.getInteger("num") || 1;
 
       for (let i = 0; i < num; i++) {
-        row.addComponents(
+        row.push(
           new ButtonBuilder()
             .setCustomId(`button-${i + 1}`)
             .setLabel(`button-${i + 1}`)
@@ -36,8 +38,44 @@ export const buttons = {
         .setDescription("some buttons to click");
 
       await interaction.reply({
-        components: [row],
+        components: [new ActionRowBuilder<ButtonBuilder>().setComponents(row)],
         embeds: [embed],
+      });
+
+      if (!interaction.channel) {
+        interaction.editReply({
+          content: "no channel, take krzysztof instead",
+          files: [new AttachmentBuilder("./src/assets/krzysztof-final.jpg")],
+        });
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        interaction.deleteReply();
+        return;
+      }
+
+      const collector = interaction.channel.createMessageComponentCollector({
+        filter: (i) => {
+          console.log(i.customId);
+          return i.customId.startsWith("button");
+        },
+        componentType: ComponentType.Button,
+        time: 15_000,
+      });
+
+      collector.on("collect", async (interaction) => {
+        await interaction.deferUpdate();
+      });
+
+      collector.on("end", async (collected) => {
+        console.log(`Collected ${collected.size} items`);
+        // console.log(collected);
+        await interaction.editReply({
+          components: [
+            new ActionRowBuilder<ButtonBuilder>().setComponents(
+              row.map((e) => e.setDisabled())
+            ),
+          ],
+          embeds: [embed],
+        });
       });
     } catch (error) {
       interaction.reply({ content: "error", ephemeral: true });

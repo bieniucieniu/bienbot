@@ -1,20 +1,14 @@
+import { Command } from "../types";
+import { Collection } from "discord.js";
+
 import { ban } from "./ban";
 import { krzysztof } from "./krzysztof";
 import { user } from "./user";
 import { ping } from "./ping";
 import { buttons } from "./buttons";
-import {
-  ChatInputCommandInteraction,
-  Collection,
-  SlashCommandBuilder,
-} from "discord.js";
+import { selectMenu } from "./selectMenu";
 
-type Command = {
-  data: any;
-  execute: (interaction: ChatInputCommandInteraction) => Promise<void>;
-};
-
-const commands: Command[] = [ban, krzysztof, user, ping, buttons];
+const commands: Command[] = [ban, krzysztof, user, ping, buttons, selectMenu];
 const commandsCollection = new Collection<string, Command>();
 
 commands.forEach((command) => {

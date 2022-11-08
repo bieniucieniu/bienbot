@@ -31,7 +31,7 @@ export const krzysztof = {
       console.log(interaction.options.getString("left_or_right"));
 
       if (interaction.options.getString("left_or_right") === "left") {
-        for (let i = images.length - 1; i > 0; i--) {
+        for (let i = images.length - 2; i > 0; i--) {
           await interaction.editReply({
             files: [images[i]],
           });
@@ -54,3 +54,17 @@ export const krzysztof = {
     }
   },
 };
+
+type Data = {
+  length: number; //cm
+  amount: number; // ilość
+  time: number; //sekundy
+};
+
+let data: Data[] = []; //dane
+
+let gravity = data.map((e) => {
+  let T = e.time / e.amount;
+  let g = (4 * Math.PI ** 2 * e.length) / 100 / T ** 2;
+});
+ 
