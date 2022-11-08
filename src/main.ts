@@ -29,10 +29,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   await command.execute(interaction);
 });
 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isButton()) return;
-
-  interaction.reply("ss");
-});
-
 client.login(Token);
