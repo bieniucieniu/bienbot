@@ -54,17 +54,3 @@ export const krzysztof = {
     }
   },
 };
-
-type Data = {
-  length: number; //cm
-  amount: number; // ilość
-  time: number; //sekundy
-};
-
-let data: Data[] = []; //dane
-
-let gravity = data.map((e) => {
-  let T = e.time / e.amount;
-  let g = (4 * Math.PI ** 2 * e.length) / 100 / T ** 2;
-});
- 
