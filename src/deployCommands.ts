@@ -1,23 +1,30 @@
 import { REST, Routes } from "discord.js";
-import { Token, GuildID, ClientID } from "../config.json";
-
-import commandsCollection from "./commands";
+import commandsCollection from "./slashCommands";
+import contextMenuAppsCollection from "./contextMenus";
 
 export const deployCommnads = async () => {
-  const commandsJson = commandsCollection.map((command) => {
-    return command?.data.toJSON();
-  });
+	const commandsJson = commandsCollection.map((command) =>
+		command?.data.toJSON()
+	);
+	const contextMenuAppJson = contextMenuAppsCollection.map((app) =>
+		app?.data.toJSON()
+	);
 
-  const rest = new REST({ version: "10" }).setToken(Token);
+	const rest = new REST({ version: "10" }).setToken(process.env.TOKEN!);
 
-  try {
-    const data = (await rest.put(
-      Routes.applicationGuildCommands(ClientID, GuildID),
-      { body: commandsJson }
-    )) as {}[];
+	try {
+		const l = (
+			(await rest.put(
+				Routes.applicationGuildCommands(
+					process.env.CLIENT_ID!,
+					process.env.GUILD_ID!
+				),
+				{ body: commandsJson.concat(contextMenuAppJson) }
+			)) as {}[]
+		).length;
 
-    console.log(`loaded ${data.length} commands`);
-  } catch (error) {
-    console.error(error);
-  }
+		console.log(`loaded ${l} commands`);
+	} catch (error) {
+		console.error(error);
+	}
 };

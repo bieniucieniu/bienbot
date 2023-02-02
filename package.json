@@ -1,15 +1,21 @@
 {
-  "name": "bienbot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "ts-node ./src/main.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "discord.js": "^14.6.0"
-  }
+	"name": "bienbot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "ts-node ./src/main.ts"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@discordjs/opus": "^0.8.0",
+		"discord-player": "^5.3.2",
+		"discord.js": "^14.6.0",
+		"dotenv": "^16.0.3",
+		"ffmpeg-static": "^5.1.0",
+		"i": "^0.3.7",
+		"npm": "^9.1.1"
+	}
 }
